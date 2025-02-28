@@ -28,7 +28,7 @@
         </div>
     </header>
 
-    <!-- Main Product Section -->
+    <!-- Main Product Section, placeholder items for presentation -->
     <main>
         <section class="product-container">
             <div class="product-image">

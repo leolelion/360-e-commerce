@@ -12,7 +12,7 @@ $email = trim($_POST['email']);
 $password = $_POST['password'];
 
 
-
+//TODO: access denied? not sure why it stopped working
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // Handle profile picture upload
