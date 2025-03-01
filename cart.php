@@ -9,24 +9,26 @@
 <body>
 
 
-    <header>
+<header>
+        
         
         <div class="nav-container">
-            <h1>SHOP.CO</h1>
+            <h1><a href="home.html">SHOP.CO</a></h1>
             <nav>
                 <ul>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">On Sale</a></li>
-                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="home.html">Shop</a></li>
+                    <li><a href="login.html">Log in</a></li>
+                    <li><a href="register.html">Register</a></li>
                 </ul>
             </nav>
             <div class="search-bar"><input type="text" placeholder="Search for products..."></div>
             <div class="icons">
-                <a href="#">🛒</a>
-                <a href="#">👤</a>
+                <a href="cart.php">🛒</a>
+                <a href="profile.php">👤</a>
             </div>
         </div>
-    </header>
+    
+</header>
     <main>
  <!-- placeholders for when we have actual stuff in DB -->
     <h1>YOUR CART</h1>

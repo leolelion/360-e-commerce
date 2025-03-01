@@ -12,21 +12,23 @@
     
     <header>
         
-        <div class="nav-container">
-            <h1>SHOP.CO</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">On Sale</a></li>
-                    <li><a href="#">New Arrivals</a></li>
-                </ul>
-            </nav>
-            <div class="search-bar"><input type="text" placeholder="Search for products..."></div>
-            <div class="icons">
-                <a href="#">🛒</a>
-                <a href="#">👤</a>
+        
+            <div class="nav-container">
+                <h1><a href="home.html">SHOP.CO</a></h1>
+                <nav>
+                    <ul>
+                        <li><a href="home.html">Shop</a></li>
+                        <li><a href="login.html">Log in</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </nav>
+                <div class="search-bar"><input type="text" placeholder="Search for products..."></div>
+                <div class="icons">
+                    <a href="cart.php">🛒</a>
+                    <a href="profile.php">👤</a>
+                </div>
             </div>
-        </div>
+        
     </header>
     
     <main>
