@@ -5,30 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page - SHOP.CO</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/product.css">
 </head>
 <body>
-
-
-<header>
-        
-        
-        <div class="nav-container">
-            <h1><a href="home.html">SHOP.CO</a></h1>
-            <nav>
-                <ul>
-                    <li><a href="home.html">Shop</a></li>
-                    <li><a href="login.html">Log in</a></li>
-                    <li><a href="register.html">Register</a></li>
-                </ul>
-            </nav>
-            <div class="search-bar"><input type="text" placeholder="Search for products..."></div>
-            <div class="icons">
-                <a href="cart.php">🛒</a>
-                <a href="profile.php">👤</a>
-            </div>
-        </div>
-    
-</header>
+<?php include 'header.php'; ?>
 
     <!-- Main Product Section, placeholder items for presentation -->
     <main>
