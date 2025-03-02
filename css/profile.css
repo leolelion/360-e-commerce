@@ -1,0 +1,79 @@
+/* Account Section */
+.account-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.account-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.account-info label {
+    font-weight: bold;
+}
+
+.account-info input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.account-info button {
+    background-color: black;
+    color: white;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.account-info button:hover {
+    background-color: #333;
+}
+
+/* Orders Section */
+.orders {
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.orders h2 {
+    margin-bottom: 15px;
+}
+
+.orders ul {
+    list-style: none;
+    padding: 0;
+}
+
+.orders li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.orders button {
+    background-color: black;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.orders button:hover {
+    background-color: #333;
+}

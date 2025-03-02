@@ -1,58 +1,39 @@
-<?php 
-require_once 'config.php';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="css/register.css">
 
+</head>
 
-if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['password'])) {
-    die("Error: Missing required fields.");
-}
+<body>
+<?php include 'header.php'; ?>
+<main>
+    <div class="registration-form">
+        
+        <form action="registerform.php" method="post" enctype="multipart/form-data">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
 
-$first_name = trim($_POST['first_name']);
-$last_name = trim($_POST['last_name']);
-$email = trim($_POST['email']);
-$password = $_POST['password'];
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
 
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-//TODO: access denied? not sure why it stopped working
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
 
-// Handle profile picture upload
-$profile_picture = null;
-if (!empty($_FILES['profile_picture']['name'])) {
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES['profile_picture']['name']); //file path to be uploaded
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            <label for="profile_picture">Profile Picture:</label>
+            <input type="file" id="profile_picture" name="profile_picture">
+            
+            <div id="error-message"></div>
 
-    $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
-    if (!in_array($imageFileType, $allowed_types)) {
-        die("please upload an image file");
-    }
-    //TODO: fix profile pic upload
-
-    
-    if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_file)) {
-        $profile_picture = $target_file;
-    } else {
-        die("Error: Failed to upload profile picture.");
-    }
-}
-
-try {
-    // Use $pdo from config.php
-    $sql = "INSERT INTO users (first_name, last_name, email, password, profile_picture) 
-            VALUES (:first_name, :last_name, :email, :password, :profile_picture)";
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->bindParam(':first_name', $first_name);
-    $stmt->bindParam(':last_name', $last_name);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $hashed_password);
-    
-    $stmt->bindParam(':profile_picture', $profile_picture);
-    $stmt->execute();
-
-    header("Location: home.html");
-    exit();
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
-?>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+    </main>
+</body>
+</html>

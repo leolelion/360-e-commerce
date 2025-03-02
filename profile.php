@@ -5,31 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Shop.co</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/profile.css">
     <script defer src="script.js"></script>
 </head>
 <body>
-    <div id="header"></div>
-    
-    <header>
-        
-        
-            <div class="nav-container">
-                <h1><a href="home.html">SHOP.CO</a></h1>
-                <nav>
-                    <ul>
-                        <li><a href="home.html">Shop</a></li>
-                        <li><a href="login.html">Log in</a></li>
-                        <li><a href="register.html">Register</a></li>
-                    </ul>
-                </nav>
-                <div class="search-bar"><input type="text" placeholder="Search for products..."></div>
-                <div class="icons">
-                    <a href="cart.php">🛒</a>
-                    <a href="profile.php">👤</a>
-                </div>
-            </div>
-        
-    </header>
+<?php include 'header.php'; ?>
     
     <main>
         <h1>Your Account</h1>
