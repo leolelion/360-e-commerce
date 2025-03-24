@@ -1,8 +1,8 @@
 <?php
-include('config/db.php');
+include('config.php');
 
 // Dummy Data for Testing if Database is Not Connected
-$use_dummy_data = !$conn;
+$use_dummy_data = !$pdo; // Check if $pdo is not set or false
 
 $total_users = $use_dummy_data ? rand(50, 500) : 0;
 $total_orders = $use_dummy_data ? rand(100, 1000) : 0;
@@ -18,35 +18,38 @@ $recent_orders = $use_dummy_data ? [
 ] : [];
 
 // Fetch real data if connected
-if ($conn) {
-    $user_query = mysqli_query($conn, "SELECT COUNT(*) AS total_users FROM users");
-    if ($user_query) {
-        $user_result = mysqli_fetch_assoc($user_query);
-        $total_users = $user_result['total_users'];
-    }
+if ($pdo) {
+    // Get total users
+    $user_query = $pdo->prepare("SELECT COUNT(*) AS total_users FROM Users");
+    $user_query->execute();
+    $user_result = $user_query->fetch(PDO::FETCH_ASSOC);
+    $total_users = $user_result['total_users'];
 
-    $order_query = mysqli_query($conn, "SELECT COUNT(*) AS total_orders FROM orders");
-    if ($order_query) {
-        $order_result = mysqli_fetch_assoc($order_query);
-        $total_orders = $order_result['total_orders'];
-    }
+    // Get total orders
+    $order_query = $pdo->prepare("SELECT COUNT(*) AS total_orders FROM Orders");
+    $order_query->execute();
+    $order_result = $order_query->fetch(PDO::FETCH_ASSOC);
+    $total_orders = $order_result['total_orders'];
 
-    $product_query = mysqli_query($conn, "SELECT COUNT(*) AS total_products FROM products");
-    if ($product_query) {
-        $product_result = mysqli_fetch_assoc($product_query);
-        $total_products = $product_result['total_products'];
-    }
+    // Get total products
+    $product_query = $pdo->prepare("SELECT COUNT(*) AS total_products FROM Products");
+    $product_query->execute();
+    $product_result = $product_query->fetch(PDO::FETCH_ASSOC);
+    $total_products = $product_result['total_products'];
 
-    $revenue_query = mysqli_query($conn, "SELECT SUM(total_price) AS total_revenue FROM orders WHERE status='Completed'");
-    if ($revenue_query) {
-        $revenue_result = mysqli_fetch_assoc($revenue_query);
-        $total_revenue = $revenue_result['total_revenue'] ?? 0;
-    }
+    // Get total revenue
+    $revenue_query = $pdo->prepare("SELECT SUM(total_price) AS total_revenue FROM Orders WHERE order_status = 'Completed'");
+    $revenue_query->execute();
+    $revenue_result = $revenue_query->fetch(PDO::FETCH_ASSOC);
+    $total_revenue = $revenue_result['total_revenue'] ?? 0;
 
-    $recent_orders_query = mysqli_query($conn, "SELECT * FROM orders ORDER BY order_date DESC LIMIT 5");
-    while ($recent_orders_query && $order = mysqli_fetch_assoc($recent_orders_query)) {
-        $recent_orders[] = $order;
-    }
+    // Fetch recent orders with user details
+    $recent_orders_query = $pdo->prepare("SELECT o.order_id, u.first_name, u.last_name, o.total_price, o.order_status, o.created_at 
+                                          FROM Orders o 
+                                          JOIN Users u ON o.user_id = u.user_id 
+                                          ORDER BY o.created_at DESC LIMIT 5");
+    $recent_orders_query->execute();
+    $recent_orders = $recent_orders_query->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 
@@ -91,11 +94,11 @@ if ($conn) {
         <?php } else { ?>
             <?php foreach ($recent_orders as $order) { ?>
                 <tr>
-                    <td>#<?php echo $order['id']; ?></td>
-                    <td><?php echo $order['customer_name']; ?></td>
+                    <td>#<?php echo $order['order_id']; ?></td>
+                    <td><?php echo $order['first_name'] . ' ' . $order['last_name']; ?></td>
                     <td>$<?php echo number_format($order['total_price'], 2); ?></td>
-                    <td><?php echo ucfirst($order['status']); ?></td>
-                    <td><?php echo $order['order_date']; ?></td>
+                    <td><?php echo ucfirst($order['order_status']); ?></td>
+                    <td><?php echo $order['created_at']; ?></td>
                 </tr>
             <?php } ?>
         <?php } ?>
