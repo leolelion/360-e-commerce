@@ -1,24 +1,18 @@
 <footer>
     <div class="footer-container">
         <div class="footer-logo">SHOP.CO</div>
-        <p>info</p>
+        
         <ul class="footer-links">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Works</a></li>
-            <li><a href="#">Career</a></li>
+            <li><a href="profile_info.php">View Profile</a></li>
+            <li><a href="profile.php">Edit Profile</a></li>
         </ul>
         <ul class="footer-links">
-            <li><a href="#">Customer Support</a></li>
-            <li><a href="#">Delivery Details</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Privacy Policy</a></li>
+        <li><a href="browse.php">Browse</a></li>
+            
         </ul>
         <ul class="footer-links">
-            <li><a href="#">Free eBooks</a></li>
-            <li><a href="#">Development Tutorial</a></li>
-            <li><a href="#">How-to Blog</a></li>
-            <li><a href="#">YouTube Playlist</a></li>
+           
+            <li><a href="logout.php">Logout</a></li>
         </ul>
         <div class="icons">
         <p>Icons made by <a href="https://thenounproject.com" target="_blank" title="nounproject">NounProject</a>, photos:

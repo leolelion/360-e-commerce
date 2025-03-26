@@ -11,4 +11,9 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+//bof connections
+$conn = new mysqli($host, $user, $password, $dbname);
+if ($conn->connect_error) {
+    die("MySQLi Connection failed: " . $conn->connect_error);
+}
 ?>

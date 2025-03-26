@@ -2,6 +2,6 @@
 session_start();
 session_destroy();
 echo "Logged out success";
-header("Location: home.html");
+header("Location: index.php");
 exit;
 ?>

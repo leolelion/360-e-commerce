@@ -1,3 +1,20 @@
+<?php
+session_start();
+require_once 'config.php';
+
+// Redirect if not logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+$stmt = $pdo->prepare("SELECT first_name, email FROM Users WHERE user_id = :user_id");
+$stmt->execute([':user_id' => $user_id]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,67 +27,48 @@
 </head>
 <body>
 <?php include 'header.php'; ?>
-    
-    <main>
-        <h1>Your Account</h1>
-        
-        <section class="account-info">
-            <div>
-                <label>Username</label>
-                <input type="text" id="username" value="myusername">
-                <button onclick="validateUsername()">Change Username</button>
-                <p class="error" id="username-error"></p>
-            </div>
-            
-            <div>
-                <label>Password</label>
-                <input type="password" id="password">
-                <button onclick="validatePassword()">Change Password</button>
-                <p class="error" id="password-error"></p>
-            </div>
-            
-            <div>
-                <label>Payment Information</label>
-                <input type="text" id="payment" placeholder="Card Number">
-                <button onclick="validatePayment()">Update Payment Information</button>
-                <p class="error" id="payment-error"></p>
-            </div>
-        </section>
 
-        <section class="orders">
-            <h2>Past Orders</h2>
-            <ul>
-                <li>January 31, 2025 <button>View Receipt</button></li>
-                <li>January 31, 2025 <button>View Receipt</button></li>
-                <li>January 31, 2025 <button>View Receipt</button></li>
-            </ul>
-        </section>
-    </main>
-    
-    <footer>
-        <div class="footer-container">
-            <div class="footer-logo">SHOP.CO</div>
-            <p>info</p>
-            <ul class="footer-links">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Works</a></li>
-                <li><a href="#">Career</a></li>
-            </ul>
-            <ul class="footer-links">
-                <li><a href="#">Customer Support</a></li>
-                <li><a href="#">Delivery Details</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul>
-            <ul class="footer-links">
-                <li><a href="#">Free eBooks</a></li>
-                <li><a href="#">Development Tutorial</a></li>
-                <li><a href="#">How-to Blog</a></li>
-                <li><a href="#">YouTube Playlist</a></li>
-            </ul>
-            <div class="payment-icons">VISA | PayPal | GPay | Apple Pay</div>
-        </div>
-    </footer>
+<main>
+    <h1>Your Account</h1>
+
+    <?php
+    if (isset($_SESSION['success'])) {
+        echo "<p class='success'>" . $_SESSION['success'] . "</p>";
+        unset($_SESSION['success']);
+    }
+    if (isset($_SESSION['error'])) {
+        echo "<p class='error'>" . $_SESSION['error'] . "</p>";
+        unset($_SESSION['error']);
+    }
+    ?>
+
+    <section class="account-info">
+        <form action="update_profile.php" method="POST">
+            <div>
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($user['first_name']); ?>" required>
+                <button type="submit" name="change_first_name">Update First Name</button>
+            </div>
+        </form>
+
+        <form action="update_profile.php" method="POST">
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
+                <button type="submit" name="change_email">Update Email</button>
+            </div>
+        </form>
+
+        <form action="update_profile.php" method="POST">
+            <div>
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit" name="change_password">Change Password</button>
+            </div>
+        </form>
+    </section>
+</main>
+
+<?php include 'footer.php'; ?>
 </body>
 </html>

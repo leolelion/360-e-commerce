@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config.php';
 
 
@@ -30,7 +31,7 @@ $upload_dir = "uploads/profile_pictures/";
 // make sure directory exists, directory permissions must be set to write to the directory
 //have to enable directory permissions to the WEB SERVER not user. 
 if (!is_dir($upload_dir)) {
-    mkdir($upload_dir, 0755, true); // Create the directory if it doesn't exist
+    mkdir($upload_dir, 0755, true); // Create the directory if it doesn't exist(w permissions)
 }
 
 if (!empty($_FILES['profile_picture']['name'])) {
@@ -44,7 +45,7 @@ if (!empty($_FILES['profile_picture']['name'])) {
     }
 
 
-    $max_file_size = 5 * 1024 * 1024; // 5MB
+    $max_file_size = 5 * 1024 * 1024;
     if ($_FILES['profile_picture']['size'] > $max_file_size) {
         die("Error: File size exceeds the maximum allowed limit.");
     }
@@ -80,9 +81,12 @@ try {
     $stmt->bindParam(':profile_picture', $profile_picture);
 
     $stmt->execute();
-
+    //$_SESSION['loggedin'] = true;
+    //$_SESSION['user_id'] = $user['user_id']; 
+    //$_SESSION['email'] = $email;  
     // Redirect to index.php on success, potentially change to a success page?
-    header("Location: index.php");
+    header("Location: login.php");
+    
     exit();
 } catch (PDOException $e) {
     error_log("Database Error: " . $e->getMessage());
