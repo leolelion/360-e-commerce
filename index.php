@@ -12,7 +12,7 @@
 <?php include 'header.php'; ?>
 <main>
     <section class="categories">
-        <h2>PRODUCE</h2>
+        <h2>PRODUCTS</h2>
         <div class="category-list">
             <div class="category">
                 <img src="images/egg.png" alt="Eggs">
@@ -24,7 +24,7 @@
             </div>
             <div class="category">
                 <img src="images/cake.png" alt="Cake">
-                <span>Cake</span>
+                <span>Baked Goods</span>
             </div>
             <div class="category">
                 <img src="images/flowers.png" alt="Flowers">
@@ -48,11 +48,19 @@
             </div>
             <div class="category">
                 <img src="images/laundry.png" alt="Laundry">
-                <span>Laundry</span>
+                <span>Home Goods</span>
             </div>
             <div class="category">
                 <img src="images/tissue.png" alt="Tissue">
-                <span>Tissue</span>
+                <span>Health</span>
+            </div>
+            <div class="category">
+                <img src="images/tissue.png" alt="Other">
+                <span>Other</span>
+            </div>
+            <div class="category">
+                <img src="images/tissue.png" alt="Misc.">
+                <span>Misc.</span>
             </div>
         </div>
     </section>

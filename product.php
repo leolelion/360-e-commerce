@@ -10,14 +10,13 @@
 <body>
 <?php include 'header.php'; ?>
 
-    <!-- Main Product Section, placeholder items for presentation -->
     <main>
         <section class="product-container">
             <div class="product-image">
-                <img src="images/blueberries.jpeg" alt="Blueberries (FRZ)">
+                <img src="images/blueberries.jpeg" alt="Blueberries">
             </div>
             <div class="product-details">
-                <h2>Blueberries (FRZ)</h2>
+                <h2>Blueberries</h2>
                 <p class="rating">⭐⭐⭐⭐ 4/5</p>
                 <p class="price">$20 <span class="old-price">$30</span> <span class="discount">-40%</span></p>
                 <p class="description">

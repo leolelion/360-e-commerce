@@ -2,40 +2,36 @@
 session_start();
 require_once 'config.php';
 
-$user = $_POST['user_id'];
-$password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
-try {
-
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $dbpass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
- 
-    $stmt = $conn->prepare("SELECT * FROM Users WHERE email = :email");
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
-
-
-    if ($stmt->rowCount() > 0) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM Users WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if ($user && password_verify($password, $user['password'])) {
+            // Store user data in session
+            $_SESSION['loggedin'] = true;
+            $_SESSION['user_id'] = $user['user_id']; 
+            $_SESSION['email'] = $user['email'];  
 
-        if (password_verify($password, $user['password'])) {
-            session_start();
-            //$_SESSION['email'] = $email;
-            $_SESSION['loggedin'] = true; //track user session
-            header("Location: home.html");
-            exit(); //stop after redirect
+            header("Location: index.php");
+            exit();
         } else {
-            echo "Wrong Password";
+            
+            header("Location: login.php?error=invalid_credentials");
+            exit();
         }
-    } else {
-        echo "No user with that email";
+    } catch (PDOException $e) {
+        header("Location: login.php?error=db_error");
+        exit();
     }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+} else {
+    header("Location: login.php");
+    exit();
 }
 
-// Close connection
-$conn = null;
-?>
+

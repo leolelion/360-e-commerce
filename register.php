@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Page</title>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/register.css">
+
 
 </head>
 
 <body>
-<?php include 'header.php'; ?>
+
 <main>
     <div class="registration-form">
         
@@ -31,9 +33,13 @@
             
             <div id="error-message"></div>
 
-            <button type="submit">Register</button>
+            <div class="form-buttons">
+                    <button type="submit" class="register-btn">Register</button>
+                    <a href="index.php" class="home-btn">Back</a>
+            </div>
         </form>
     </div>
-    </main>
+</main>
+
 </body>
 </html>

@@ -219,3 +219,28 @@
 .checkout-button:hover {
     background-color: #0056b3;
 }
+.quantity-form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+}
+.update-btn, .remove-btn {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.remove-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    margin-left: 10px;
+}
+.empty-cart {
+    text-align: center;
+    padding: 40px;
+}
