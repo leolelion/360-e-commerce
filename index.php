@@ -12,47 +12,55 @@
 <?php include 'header.php'; ?>
 <main>
     <section class="categories">
-        <h2>PRODUCE</h2>
+        <h2>Categories</h2>
         <div class="category-list">
             <div class="category">
-                <img src="images/egg.png" alt="Eggs">
-                <span>Eggs</span>
+                <img src="images/fruitsVegetables.png" alt="Fruits & Vegetables">
+                <span>Produce</span>
             </div>
             <div class="category">
-                <img src="images/milk.png" alt="Milk">
-                <span>Milk</span>
+                <img src="images/meats.png" alt="Meat & Seafood">
+                <span>Meats</span>
             </div>
             <div class="category">
-                <img src="images/cake.png" alt="Cake">
-                <span>Cake</span>
+                <img src="images/dairy.png" alt="Dairy Products">
+                <span>Dairy</span>
             </div>
             <div class="category">
-                <img src="images/flowers.png" alt="Flowers">
-                <span>Flowers</span>
+                <img src="images/frozenFoods.png" alt="Frozen Foods">
+                <span>Frozen Foods</span>
             </div>
             <div class="category">
-                <img src="images/wine.png" alt="Wine">
-                <span>Wine</span>
+                <img src="images/pantryFoods.png" alt="Pantry Foods">
+                <span>Pantry Foods</span>
             </div>
             <div class="category">
-                <img src="images/beer.png" alt="Beer">
-                <span>Beer</span>
+                <img src="images/snacksCandy.png" alt="Snacks & Candy">
+                <span>Snacks</span>
             </div>
             <div class="category">
-                <img src="images/chicken.png" alt="Chicken">
-                <span>Chicken</span>
+                <img src="images/freshFoods.png" alt="Deli & Fresh Prepared Meals">
+                <span>Fresh Foods</span>
             </div>
             <div class="category">
-                <img src="images/beef.png" alt="Beef">
-                <span>Beef</span>
+                <img src="images/alcohol.png" alt="Alcohol Beverages">
+                <span>Alcohol</span>
             </div>
             <div class="category">
-                <img src="images/laundry.png" alt="Laundry">
-                <span>Laundry</span>
+                <img src="images/drinks.png" alt="Beverages">
+                <span>Beverages</span>
             </div>
             <div class="category">
-                <img src="images/tissue.png" alt="Tissue">
-                <span>Tissue</span>
+                <img src="images/bread.png" alt="Bakery Goods">
+                <span>Bakery</span>
+            </div>
+            <div class="category">
+                <img src="images/laundry.png" alt="Household Items">
+                <span>Household</span>
+            </div>
+            <div class="category">
+                <img src="images/tissue.png" alt="Paper Products">
+                <span>Paperware</span>
             </div>
         </div>
     </section>
@@ -62,13 +70,13 @@
         <h2>HOT PRODUCTS</h2>
         <div class="product-grid">
             <div class="product">
-                <img src="images/spinach.jpg" alt="Baby Spinach">
+                <img src="images/babySpinach.png" alt="Baby Spinach">
                 <h3>Baby Spinach</h3>
                 <p>Jayleaf Farm</p>
                 <p>277 g Box - $15.49</p>
             </div>
             <div class="product">
-                <img src="images/raspberries.jpg" alt="Raspberries">
+                <img src="images/rasberries.jpg" alt="Raspberries">
                 <h3>Raspberries</h3>
                 <p>Jayleaf Farm</p>
                 <p>277 g Box - $15.49</p>
@@ -80,7 +88,7 @@
                 <p>277 g Box - $15.49</p>
             </div>
             <div class="product">
-                <img src="images/eggs.jpg" alt="Large Eggs">
+                <img src="images/eggs.png" alt="Large Eggs">
                 <h3>Large Eggs</h3>
                 <p>Jayleaf Farm</p>
                 <p>277 g Box - $15.49</p>
