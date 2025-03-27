@@ -2,13 +2,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
 
+    const products = {
+        blueberries: "blueberries",
+        raspberries: "raspberries",
+        eggs: "eggs",
+        "baby spinach": "baby_spinach"
+    };
+
     searchBtn.addEventListener("click", function () {
         const query = searchInput.value.trim().toLowerCase();
 
-        if (query === "blueberries") {
-            window.location.href = "product.php";
+        if (products[query]) {
+            window.location.href = "product.php?item=" + products[query];
         } else {
-            alert("Try searching for 'blueberries'");
+            alert("Try searching for 'blueberries', 'raspberries', 'eggs', or 'baby spinach'");
         }
     });
 
