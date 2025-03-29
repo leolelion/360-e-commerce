@@ -36,8 +36,8 @@ include('config.php');
 
             $page = isset($_GET['page']) ? $_GET['page'] : 'products';
 
-            if (file_exists("pages/admin_$page.php")) {
-                include("pages/admin_$page.php");
+            if (file_exists("pages/$page.php")) {
+                include("pages/$page.php");
             } else {
                 echo "<h3>Page not found</h3>";
             }
