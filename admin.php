@@ -1,5 +1,7 @@
 <?php
 include('config.php');
+include('header.php');
+
 
 // Check if the user is logged in and if they have an admin role
 // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
@@ -33,8 +35,6 @@ include('config.php');
         <?php
             session_start();
             include('config/db.php');
-            include('includes/header.php');
-            include('includes/sidebar.php');
 
             $page = isset($_GET['page']) ? $_GET['page'] : 'products';
 
