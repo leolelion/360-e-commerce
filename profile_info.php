@@ -34,8 +34,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/profile_info.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/profile_info.css">
 </head>
 <body>
 <?php include 'header.php'; ?>

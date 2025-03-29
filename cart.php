@@ -60,8 +60,8 @@ $total = $subtotal - $discount + $delivery_fee;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart - SHOP.CO</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
     <style>
         .stock-info {
     color: <?= ($item['stock_quantity'] > 0) ? 'green' : 'red' ?>;
