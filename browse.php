@@ -40,8 +40,8 @@ $categories = $conn->query("SELECT * FROM Categories")->fetch_all(MYSQLI_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Products - ShopCo</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/browse.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/browse.css">
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -92,7 +92,7 @@ $categories = $conn->query("SELECT * FROM Categories")->fetch_all(MYSQLI_ASSOC);
                     <?php foreach ($products as $product): ?>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="<?= $product['image_url'] ? htmlspecialchars($product['image_url']) : 'images/placeholder.jpg' ?>" 
+                                <img src="<?= $product['image_url'] ? htmlspecialchars($product['image_url']) : 'assets/images/placeholder.jpg' ?>" 
                                      alt="<?= htmlspecialchars($product['name']) ?>">
                             </div>
                             <div class="product-info">
