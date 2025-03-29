@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h2>Add New Product</h2>
-    <a href="admin_products.php">⬅ Back to Products</a>
+    <a href="admin.php?page=products">⬅ Back to Products</a>
 
     <?php if (isset($message)) : ?>
         <p><?= htmlspecialchars($message) ?></p>
