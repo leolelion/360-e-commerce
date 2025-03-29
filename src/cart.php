@@ -60,8 +60,8 @@ $total = $subtotal - $discount + $delivery_fee;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart - SHOP.CO</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/cart.css">
     <style>
         .stock-info {
     color: <?= ($item['stock_quantity'] > 0) ? 'green' : 'red' ?>;
@@ -89,7 +89,7 @@ $total = $subtotal - $discount + $delivery_fee;
                 <?php else: ?>
                     <?php foreach ($cart_items as $item): ?>
                         <div class="cart-item">
-                            <img src="<?= htmlspecialchars($item['image_url'] ?? 'assets/images/placeholder.jpg') ?>" 
+                            <img src="<?= htmlspecialchars($item['image_url'] ?? '../assets/images/placeholder.jpg') ?>" 
                                  alt="<?= htmlspecialchars($item['name']) ?>">
                             <div class="item-details">
                                 <h2><?= htmlspecialchars($item['name']) ?></h2>

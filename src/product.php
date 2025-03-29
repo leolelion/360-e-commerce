@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page - SHOP.CO</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/product.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
@@ -13,7 +13,7 @@
     <main>
         <section class="product-container">
             <div class="product-image">
-                <img src="assets/images/blueberries.jpeg" alt="Blueberries">
+                <img src="../assets/images/blueberries.jpeg" alt="Blueberries">
             </div>
             <div class="product-details">
                 <h2>Blueberries</h2>
@@ -57,15 +57,15 @@
     <h3>You Might Also Like</h3>
     <div class="products">
         <div class="product">
-            <img src="assets/images/raspberries.jpeg" alt="Raspberries">
+            <img src="../assets/images/raspberries.jpeg" alt="Raspberries">
             <p>Raspberries (FRZ) - $18</p>
         </div>
         <div class="product">
-            <img src="assets/images/strawberries.jpeg" alt="Strawberries">
+            <img src="../assets/images/strawberries.jpeg" alt="Strawberries">
             <p>Strawberries (FRZ) - $15</p>
         </div>
         <div class="product">
-            <img src="assets/images/mixed-berries.jpeg" alt="Mixed Berries">
+            <img src="../assets/images/mixed-berries.jpeg" alt="Mixed Berries">
             <p>Mixed Berries (FRZ) - $22</p>
         </div>
     </div>
