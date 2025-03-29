@@ -2,11 +2,9 @@
 include 'config.php';
 
 if (isset($_GET['id'])) {
-    // Get the order ID from the URL
     $order_id = $_GET['id'];
 
     try {
-        // Fetch the order details
         $stmt = $pdo->prepare("SELECT o.order_id, o.total_price, o.order_status, o.created_at, 
                                        u.first_name, u.last_name 
                                 FROM Orders o
@@ -17,7 +15,6 @@ if (isset($_GET['id'])) {
 
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Fetch the items in this order
         $stmt_items = $pdo->prepare("SELECT oi.order_item_id, p.name AS product_name, oi.quantity, oi.unit_price, 
                                             (oi.quantity * oi.unit_price) AS item_total
                                      FROM OrderItems oi
@@ -41,7 +38,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Order - Admin</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h2>Order Details for Order ID: <?= htmlspecialchars($order['order_id']) ?></h2>
