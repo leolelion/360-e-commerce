@@ -20,7 +20,6 @@ include('config.php');
         <h2>Admin Dashboard</h2>
         <nav>
             <ul>
-                <li><a href="admin.php?page=dashboard">Dashboard</a></li>
                 <li><a href="admin.php?page=products">Manage Products</a></li>
                 <li><a href="admin.php?page=orders">Orders</a></li>
                 <li><a href="admin.php?page=users">Users</a></li>
@@ -35,7 +34,7 @@ include('config.php');
             include('includes/header.php');
             include('includes/sidebar.php');
 
-            $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+            $page = isset($_GET['page']) ? $_GET['page'] : 'products';
 
             if (file_exists("pages/admin_$page.php")) {
                 include("pages/admin_$page.php");
