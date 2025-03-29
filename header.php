@@ -20,5 +20,5 @@
             <a href="profile.php">⛭</a>
         </div>
     </div>
-<script src="js/search.js" defer></script>
+<script src="assets/jssearch.js" defer></script>
 </header>

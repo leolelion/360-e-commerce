@@ -37,6 +37,6 @@ if (isset($_GET['error'])) {
         </form>
 
     </main>
-<script src="js/scripts.js"></script>
+<script src="assets/jsscripts.js"></script>
 </body>
 </html>
