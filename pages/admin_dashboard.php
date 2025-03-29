@@ -1,5 +1,4 @@
 <?php
-include('config/db.php');
 
 // Dummy Data for Testing if Database is Not Connected
 $use_dummy_data = !$conn;
