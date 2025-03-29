@@ -50,6 +50,11 @@ try {
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php if (empty($users)): ?>
+                <tr>
+                    <td colspan="8">No users found.</td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </body>
