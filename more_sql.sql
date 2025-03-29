@@ -1,0 +1,5 @@
+ALTER TABLE Orders
+DROP FOREIGN KEY orders_ibfk_1;
+
+ALTER TABLE Orders
+ADD CONSTRAINT orders_ibfk_1 FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE SET NULL;
