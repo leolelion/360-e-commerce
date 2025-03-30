@@ -1,104 +1,168 @@
+<?php
+session_start();
+
+include 'config.php';
+
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die("Product not found.");
+}
+
+$product_id = intval($_GET['id']);
+
+try {
+    $stmt = $pdo->prepare("SELECT p.product_id, p.name, p.description, p.price, p.stock_quantity, p.image_url, 
+                                  c.category_name, v.vendor_name 
+                           FROM Products p
+                           JOIN Categories c ON p.category_id = c.category_id
+                           JOIN Vendors v ON p.vendor_id = v.vendor_id
+                           WHERE p.product_id = ?");
+    $stmt->execute([$product_id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$product) {
+        die("Product not found.");
+    }
+} catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage());
+}
+try {
+    $stmt = $pdo->prepare("SELECT r.review_id, r.rating, r.comment, r.created_at, 
+                              CONCAT(u.first_name, ' ', u.last_name) AS username 
+                       FROM Reviews r
+                       JOIN Users u ON r.user_id = u.user_id
+                       WHERE r.product_id = ?
+                       ORDER BY r.created_at DESC");
+    $stmt->execute([$product_id]);
+    $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching reviews: " . $e->getMessage());
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page - SHOP.CO</title>
+    <meta name="description" content="<?= htmlspecialchars(substr($product['description'], 0, 160)) ?>">
+    <title><?= htmlspecialchars($product['name']) ?> | Product Details</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/product.css">
+    <!-- Preload important resources -->
+    <link rel="preload" href="<?= htmlspecialchars('../assets/images/' . basename($product['image_url'])) ?>" as="image">
 </head>
 <body>
-<?php include 'header.php'; ?>
-
-    <main>
-        <section class="product-container">
-            <div class="product-image">
-                <img src="../assets/images/blueberries.jpeg" alt="Blueberries">
-            </div>
-            <div class="product-details">
-                <h2>Blueberries</h2>
-                <p class="rating">⭐⭐⭐⭐ 4/5</p>
-                <p class="price">$20 <span class="old-price">$30</span> <span class="discount">-40%</span></p>
-                <p class="description">
-                    Throw some in muffins, pancakes, waffles or a smoothie! One pound is enough for a pie.
-                </p>
-                <label>Choose Size:</label>
-                <div class="size-options">
-                    <button>1lb</button>
-                    <button>2lb</button>
-                    <button>5lb</button>
-                    <button>25lb</button>
+    <?php include 'header.php'; ?>
+    
+    <main class="product-page">
+        <!-- Product Section -->
+        <section class="product-container" itemscope itemtype="https://schema.org/Product">
+            <div class="product-header">
+                <figure class="product-image-container">
+                    <img src="<?= htmlspecialchars('../assets/images/' . basename($product['image_url'])) ?>" 
+                         alt="<?= htmlspecialchars($product['name']) ?>" 
+                         class="product-image"
+                         itemprop="image">
+                </figure>
+                
+                <div class="product-info" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                    <h1 itemprop="name"><?= htmlspecialchars($product['name']) ?></h1>
+                    
+                    <div class="product-meta">
+                        <p><strong>Vendor:</strong> <span itemprop="brand"><?= htmlspecialchars($product['vendor_name']) ?></span></p>
+                        <p><strong>Category:</strong> <span itemprop="category"><?= htmlspecialchars($product['category_name']) ?></span></p>
+                        <p itemprop="description"><strong>Description:</strong> <?= nl2br(htmlspecialchars($product['description'])) ?></p>
+                    </div>
+                    
+                    <div class="product-purchase">
+                        <p class="price" itemprop="price" content="<?= $product['price'] ?>">
+                            <strong>Price:</strong> $<?= number_format($product['price'], 2) ?>
+                        </p>
+                        <p class="availability" itemprop="availability" content="<?= $product['stock_quantity'] > 0 ? 'InStock' : 'OutOfStock' ?>">
+                            <strong>Stock:</strong> <?= $product['stock_quantity'] > 0 ? "In Stock" : "Out of Stock" ?>
+                        </p>
+                        
+                        <form action="cart.php" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                            
+                            <label for="quantity">Quantity:</label>
+                            <select id="quantity" name="quantity">
+                                <?php for ($i = 1; $i <= min(10, $product['stock_quantity']); $i++): ?>
+                                    <option value="<?= $i ?>"><?= $i ?></option>
+                                <?php endfor; ?>
+                            </select>
+                            
+                            <button type="submit" class="btn" <?= $product['stock_quantity'] <= 0 ? 'disabled' : '' ?>>
+                                Add to Cart
+                            </button>
+                        </form>
+                        
+                        <a href="index.php" class="btn back-btn">Back to Products</a>
+                    </div>
                 </div>
-                <div class="quantity">
-                    <button>-</button>
-                    <input type="number" value="1">
-                    <button>+</button>
-                </div>
-                <button class="add-to-cart">Add to Cart</button>
             </div>
         </section>
 
-        <section class="reviews">
-    <h3>Customer Reviews</h3>
-    <div class="review">
-        <p><strong>John D.</strong> ⭐⭐⭐⭐⭐</p>
-        <p>These blueberries are amazing! Super fresh and perfect for smoothies.</p>
-    </div>
-    <div class="review">
-        <p><strong>Emily R.</strong> ⭐⭐⭐⭐☆</p>
-        <p>Great taste, but I wish the packaging was a bit better.</p>
-    </div>
-    <div class="review">
-        <p><strong>Michael S.</strong> ⭐⭐⭐⭐⭐</p>
-        <p>Best frozen blueberries I've ever bought! Will buy again.</p>
-    </div>
-</section>
-<section class="recommended">
-    <h3>You Might Also Like</h3>
-    <div class="products">
-        <div class="product">
-            <img src="../assets/images/raspberries.jpeg" alt="Raspberries">
-            <p>Raspberries (FRZ) - $18</p>
-        </div>
-        <div class="product">
-            <img src="../assets/images/strawberries.jpeg" alt="Strawberries">
-            <p>Strawberries (FRZ) - $15</p>
-        </div>
-        <div class="product">
-            <img src="../assets/images/mixed-berries.jpeg" alt="Mixed Berries">
-            <p>Mixed Berries (FRZ) - $22</p>
-        </div>
-    </div>
-</section>
+        <!-- Reviews Section -->
+        <section class="reviews-container" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+            <h2>Customer Reviews</h2>
+            
+            <?php if ($reviews): ?>
+                <div class="reviews-list">
+                    <?php foreach ($reviews as $review): ?>
+                        <article class="review" itemprop="review" itemscope itemtype="https://schema.org/Review">
+                            <div class="review-header">
+                                <h3 itemprop="author"><?= htmlspecialchars($review['username']) ?></h3>
+                                <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                                    <meta itemprop="ratingValue" content="<?= htmlspecialchars($review['rating']) ?>">
+                                    <span>⭐ <?= htmlspecialchars($review['rating']) ?>/5</span>
+                                </div>
+                            </div>
+                            <p itemprop="reviewBody"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
+                            <time datetime="<?= htmlspecialchars(date('c', strtotime($review['created_at']))) ?>" 
+                                  class="review-date" itemprop="datePublished">
+                                <?= htmlspecialchars($review['created_at']) ?>
+                            </time>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="no-reviews">No reviews yet. Be the first to leave one!</p>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <form action="submit_review.php" method="POST" class="review-form">
+                    <h3>Write a Review</h3>
+                    <input type="hidden" name="product_id" value="<?= $product_id ?>">
+                    
+                    <div class="form-group">
+                        <label for="rating">Rating:</label>
+                        <select name="rating" id="rating" required>
+                            <option value="">Select rating</option>
+                            <option value="5">⭐ 5 - Excellent</option>
+                            <option value="4">⭐ 4 - Good</option>
+                            <option value="3">⭐ 3 - Average</option>
+                            <option value="2">⭐ 2 - Poor</option>
+                            <option value="1">⭐ 1 - Terrible</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comment">Review:</label>
+                        <textarea name="comment" id="comment" placeholder="Write your review here..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-review-btn">Submit Review</button>
+                </form>
+            <?php else: ?>
+                <p class="login-prompt">Please <a href="login.php">log in</a> to leave a review.</p>
+            <?php endif; ?>
+        </section>
     </main>
 
-
- 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-logo">SHOP.CO</div>
-            <p>info</p>
-            <ul class="footer-links">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Works</a></li>
-                <li><a href="#">Career</a></li>
-            </ul>
-            <ul class="footer-links">
-                <li><a href="#">Customer Support</a></li>
-                <li><a href="#">Delivery Details</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul>
-            <ul class="footer-links">
-                <li><a href="#">Free eBooks</a></li>
-                <li><a href="#">Development Tutorial</a></li>
-                <li><a href="#">How-to Blog</a></li>
-                <li><a href="#">YouTube Playlist</a></li>
-            </ul>
-            <div class="payment-icons">VISA | PayPal | GPay | Apple Pay</div>
-        </div>
-    </footer>
-
+    <?php include 'footer.php'; ?>
+    
+    <!-- Scripts at the bottom for better performance -->
+    <script src="../assets/js/product.js" defer></script>
 </body>
 </html>
