@@ -1,5 +1,4 @@
 <?php
-//js currently included in file
 require_once 'config.php';
 
 $selected_category = $_GET['category'] ?? '';
@@ -91,12 +90,14 @@ $categories = $conn->query("SELECT * FROM Categories")->fetch_all(MYSQLI_ASSOC);
                 <?php if ($products): ?>
                     <?php foreach ($products as $product): ?>
                         <div class="product-card">
-                            <div class="product-image">
-                                <img src="<?= $product['image_url'] ? htmlspecialchars($product['image_url']) : '../assets/images/placeholder.jpg' ?>" 
-                                     alt="<?= htmlspecialchars($product['name']) ?>">
-                            </div>
-                            <div class="product-info">
-                                <h3><?= htmlspecialchars($product['name']) ?></h3>
+                            <a href="product.php?id=<?= $product['product_id'] ?>" class="product-link">
+                                <div class="product-image">
+                                <img src="<?= htmlspecialchars('../assets/images/' . basename($product['image_url'])) ?>" 
+                                    alt="<?= htmlspecialchars($product['name']) ?>">
+                                </div>
+                                <div class="product-info">
+                                    <h3><?= htmlspecialchars($product['name']) ?></h3>
+                                </a>
                                 <p class="category"><?= htmlspecialchars($product['category_name']) ?></p>
                                 <p class="description"><?= htmlspecialchars($product['description']) ?></p>
                                 <p class="price">$<?= number_format($product['price'], 2) ?></p>
@@ -141,7 +142,7 @@ $categories = $conn->query("SELECT * FROM Categories")->fetch_all(MYSQLI_ASSOC);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showToast('please login to shop :)', 'error');
+                showToast('Please login to shop :)', 'error');
             }
         });
     });
@@ -167,3 +168,4 @@ $categories = $conn->query("SELECT * FROM Categories")->fetch_all(MYSQLI_ASSOC);
     </script>
 </body>
 </html>
+
