@@ -48,14 +48,12 @@ try {
     <title><?= htmlspecialchars($product['name']) ?> | Product Details</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/product.css">
-    <!-- Preload important resources -->
     <link rel="preload" href="<?= htmlspecialchars('../assets/images/' . basename($product['image_url'])) ?>" as="image">
 </head>
 <body>
     <?php include 'header.php'; ?>
     
     <main class="product-page">
-        <!-- Product Section -->
         <section class="product-container" itemscope itemtype="https://schema.org/Product">
             <div class="product-header">
                 <figure class="product-image-container">
@@ -103,7 +101,6 @@ try {
             </div>
         </section>
 
-        <!-- Reviews Section -->
         <section class="reviews-container" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
             <h2>Customer Reviews</h2>
             
@@ -162,7 +159,5 @@ try {
 
     <?php include 'footer.php'; ?>
     
-    <!-- Scripts at the bottom for better performance -->
-    <script src="../assets/js/product.js" defer></script>
 </body>
 </html>
