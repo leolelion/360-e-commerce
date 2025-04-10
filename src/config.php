@@ -10,10 +10,10 @@ define('BASE_URL', "$protocol://$host$baseDir/");
 define('BASE_PATH', __DIR__ . '/');
 
 // DB connection (PDO)
-$host = 'localhost';
-$dbname = 'ShopCoDB';
-$user = 'root';
-$password = '';
+$host = '127.0.0.1';
+$dbname = 'forests';
+$user = 'forests';
+$password = 'root';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
