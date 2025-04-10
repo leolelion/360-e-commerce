@@ -1,66 +1,66 @@
+<?php require_once 'config.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/index.css">
-    
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/index.css">
 </head>
 <body>
-<?php include 'header.php'; ?>
+<?php include BASE_PATH . 'header.php'; ?>
 <main>
     <section class="categories">
-        <h2>PRODUCTS</h2>
+        <h2>Categories</h2>
         <div class="category-list">
             <div class="category">
-                <img src="../assets/images/egg.png" alt="Eggs">
-                <span>Eggs</span>
+                <img src="<?= BASE_URL ?>assets/images/fruitsVegetables.png" alt="Fruits & Vegetables">
+                <span>Produce</span>
             </div>
             <div class="category">
-                <img src="../assets/images/milk.png" alt="Milk">
-                <span>Milk</span>
+                <img src="<?= BASE_URL ?>assets/images/meats.png" alt="Meat & Seafood">
+                <span>Meats</span>
             </div>
             <div class="category">
-                <img src="../assets/images/cake.png" alt="Cake">
-                <span>Baked Goods</span>
+                <img src="<?= BASE_URL ?>assets/images/dairy.png" alt="Dairy Products">
+                <span>Dairy</span>
             </div>
             <div class="category">
-                <img src="../assets/images/flowers.png" alt="Flowers">
-                <span>Flowers</span>
+                <img src="<?= BASE_URL ?>assets/images/frozenFoods.png" alt="Frozen Foods">
+                <span>Frozen Foods</span>
             </div>
             <div class="category">
-                <img src="../assets/images/wine.png" alt="Wine">
-                <span>Wine</span>
+                <img src="<?= BASE_URL ?>assets/images/pantryFoods.png" alt="Pantry Foods">
+                <span>Pantry Foods</span>
             </div>
             <div class="category">
-                <img src="../assets/images/beer.png" alt="Beer">
-                <span>Beer</span>
+                <img src="<?= BASE_URL ?>assets/images/snacksCandy.png" alt="Snacks & Candy">
+                <span>Snacks</span>
             </div>
             <div class="category">
-                <img src="../assets/images/chicken.png" alt="Chicken">
-                <span>Chicken</span>
+                <img src="<?= BASE_URL ?>assets/images/freshFoods.png" alt="Deli & Fresh Prepared Meals">
+                <span>Fresh Foods</span>
             </div>
             <div class="category">
-                <img src="../assets/images/beef.png" alt="Beef">
-                <span>Beef</span>
+                <img src="<?= BASE_URL ?>assets/images/alcohol.png" alt="Alcohol Beverages">
+                <span>Alcohol</span>
             </div>
             <div class="category">
-                <img src="../assets/images/laundry.png" alt="Laundry">
-                <span>Home Goods</span>
+                <img src="<?= BASE_URL ?>/assets/images/drinks.png" alt="Beverages">
+                <span>Beverages</span>
             </div>
             <div class="category">
-                <img src="../assets/images/tissue.png" alt="Tissue">
-                <span>Health</span>
+                <img src="<?= BASE_URL ?>assets/images/bread.png" alt="Bakery Goods">
+                <span>Bakery</span>
             </div>
             <div class="category">
-                <img src="../assets/images/tissue.png" alt="Other">
-                <span>Other</span>
+                <img src="<?= BASE_URL ?>assets/images/laundry.png" alt="Household Items">
+                <span>Household</span>
             </div>
             <div class="category">
-                <img src="../assets/images/tissue.png" alt="Misc.">
-                <span>Misc.</span>
+                <img src="<?= BASE_URL ?>assets/images/tissue.png" alt="Paper Products">
+                <span>Paperware</span>
             </div>
         </div>
     </section>
@@ -69,61 +69,61 @@
     <section class="hot-products">
         <h2>HOT PRODUCTS</h2>
         <div class="product-grid">
-            <div class="product">
-                <img src="../assets/images/spinach.jpg" alt="Baby Spinach">
+            <a href="product.php?item=baby_spinach" class="product">
+                <img src="<?= BASE_URL ?>assets/images/babySpinach.png" alt="Baby Spinach">
                 <h3>Baby Spinach</h3>
                 <p>Jayleaf Farm</p>
                 <p>277 g Box - $15.49</p>
-            </div>
-            <div class="product">
-                <img src="../assets/images/raspberries.jpg" alt="Raspberries">
+            </a>
+            <a href="product.php?item=blueberries" class="product">
+                <img src="<?= BASE_URL ?>assets/images/blueberries.jpg" alt="Baby Spinach">
+                <h3>Blueberries</h3>
+                <p>Jayleaf Farm</p>
+                <p>277 g Box - $15.49</p>
+            </a>
+            <a href="product.php?item=raspberries" class="product">
+                <img src="<?= BASE_URL ?>assets/images/rasberries.jpg" alt="Baby Spinach">
                 <h3>Raspberries</h3>
                 <p>Jayleaf Farm</p>
                 <p>277 g Box - $15.49</p>
-            </div>
-            <div class="product">
-                <img src="../assets/images/blueberries.jpg" alt="Blueberries">
-                <h3>Blueberries (FRZ)</h3>
+            </a>
+            <a href="product.php?item=eggs" class="product">
+                <img src="<?= BASE_URL ?>assets/images/eggs2.png" alt="Baby Spinach">
+                <h3>Eggs</h3>
                 <p>Jayleaf Farm</p>
                 <p>277 g Box - $15.49</p>
-            </div>
-            <div class="product">
-                <img src="../assets/images/eggs.jpg" alt="Large Eggs">
-                <h3>Large Eggs</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </div>
+            </a>
         </div>
     </section>
 
 
     <section class="all-products">
-        <h2>ALL PRODUCTS</h2>
+        <h2>MORE PRODUCTS</h2>
         <div class="product-grid">
-            <div class="product">
-                <img src="../assets/images/spinach.jpg" alt="Baby Spinach">
-                <h3>Baby Spinach</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </div>
-            <div class="product">
-                <img src="../assets/images/raspberries.jpg" alt="Raspberries">
-                <h3>Raspberries</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </div>
-            <div class="product">
-                <img src="../assets/images/bread.jpg" alt="Bread">
-                <h3>Bread</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </div>
-            <div class="product">
-                <img src="../assets/images/eggs.jpg" alt="Large Eggs">
-                <h3>Large Eggs</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </div>
+            <a href="product.php?item=laundry-detergent" class="product">
+                <img src="<?= BASE_URL ?>assets/images/laundryDetergent.png" alt="Laundry Detergent">
+                <h3>Laundry Detergent</h3>
+                <p>Purex</p>
+                <p>4.43L - $15.97</p>
+            </a>
+            <a href="product.php?item=oreo-minis" class="product">
+                <img src="<?= BASE_URL ?>assets/images/oreoMini.png" alt="Oreo Mini's">
+                <h3>Oreo Mini's</h3>
+                <p>OREO</p>
+                <p>6 pack (150 g) - $3.28</p>
+            </a>
+            <a href="product.php?item=strawberry-croissant" class="product">
+                <img src="<?= BASE_URL ?>assets/images/strawBerryCroissant.png" alt="Strawberry Cream Cheese Croissant">
+                <h3>Strawberry Cream Cheese Croissant</h3>
+                <p>Your Fresh Market</p>
+                <p>6 pieces (460 g) - $4.97</p>
+            </a>
+            <a href="product.php?item=dr-pepper-zero" class="product">
+                <img src="<?= BASE_URL ?>assets/images/drPepper.png" alt="Dr. Pepper Zero Sugar">
+                <h3>Dr. Pepper Zero Sugar</h3>
+                <p>Dr. Pepper</p>
+                <p>12 Cans x 335L (4.26L) - $7.78</p>
+            </a>
         </div>
         <div class="pagination">
             <button>«</button>
