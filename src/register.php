@@ -30,6 +30,9 @@
 
             <label for="profile_picture">Profile Picture:</label>
             <input type="file" id="profile_picture" name="profile_picture">
+
+            <label for="admin_code">Admin Code (Optional):</label>
+            <input type="text" id="admin_code" name="admin_code" placeholder="Enter Admin Code">
             
             <div id="error-message"></div>
 

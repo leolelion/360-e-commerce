@@ -12,6 +12,10 @@ $first_name = trim($_POST['first_name']);
 $last_name = trim($_POST['last_name']);
 $email = trim($_POST['email']);
 $password = $_POST['password'];
+$admin_code = $_POST['admin_code'] ?? '';
+$secret_code = 'secret';
+$role = ($admin_code === $secret_code) ? 'admin' : 'user';
+
 
 if (empty($first_name) || empty($last_name) || empty($email) || empty($password)) {
     die("Error: All fields are required.");
@@ -70,8 +74,9 @@ if (!empty($_FILES['profile_picture']['name'])) {
 
 try {
 
-    $sql = "INSERT INTO users (first_name, last_name, email, password, profile_picture) 
-            VALUES (:first_name, :last_name, :email, :password, :profile_picture)";
+    $sql = "INSERT INTO users (first_name, last_name, email, password, profile_picture, role) 
+        VALUES (:first_name, :last_name, :email, :password, :profile_picture, :role)";
+
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':first_name', $first_name);
@@ -79,6 +84,8 @@ try {
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':password', $hashed_password);
     $stmt->bindParam(':profile_picture', $profile_picture);
+    $stmt->bindParam(':role', $role);
+
 
     $stmt->execute();
     //$_SESSION['loggedin'] = true;
