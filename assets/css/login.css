@@ -1,9 +1,10 @@
-
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 header {
@@ -11,15 +12,19 @@ header {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     z-index: 1000;
     background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-sizing: border-box;
 }
 
 main {
     margin-top: 200px;
     padding: 20px;
     min-height: calc(100vh - 80px);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .registration-form {
