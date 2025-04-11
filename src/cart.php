@@ -98,7 +98,7 @@ $total = $subtotal - $discount + $delivery_fee;
                 <?php else: ?>
                     <?php foreach ($cart_items as $item): ?>
                         <div class="cart-item">
-                            <img src="<?= htmlspecialchars($item['image_url'] ?? '../assets/images/placeholder.jpg') ?>" 
+                            <img src="<?= htmlspecialchars('../assets/images/' . basename($item['image_url'])) ?>" 
                                  alt="<?= htmlspecialchars($item['name']) ?>">
                             <div class="item-details">
                                 <h2><?= htmlspecialchars($item['name']) ?></h2>
