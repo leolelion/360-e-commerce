@@ -83,7 +83,7 @@ try {
         $active_users = $active_users_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
         // Get activity tracking data
-        $activity_types = ['page_view', 'product_view', 'add_to_cart', 'purchase'];
+        $activity_types = ['login', 'logout', 'view_product', 'add_to_cart', 'purchase', 'review'];
         $activity_data = [];
         
         foreach ($activity_types as $type) {
@@ -101,12 +101,12 @@ try {
         // Get top viewed products
         $top_products_stmt = $pdo->prepare("
             SELECT 
-                JSON_EXTRACT(activity_details, '$.product_name') as product_name,
+                details as product_name,
                 COUNT(*) as view_count
             FROM UserActivity 
-            WHERE activity_type = 'product_view'
+            WHERE activity_type = 'view_product'
             AND created_at BETWEEN ? AND ?
-            GROUP BY JSON_EXTRACT(activity_details, '$.product_name')
+            GROUP BY details
             ORDER BY view_count DESC
             LIMIT 5
         ");
@@ -117,8 +117,6 @@ try {
         $engagement_stmt = $pdo->prepare("
             SELECT 
                 COUNT(DISTINCT user_id) as total_users,
-                COUNT(DISTINCT CASE WHEN is_anonymous = 0 THEN user_id END) as registered_users,
-                COUNT(DISTINCT CASE WHEN is_anonymous = 1 THEN ip_address END) as anonymous_users,
                 COUNT(*) as total_activities
             FROM UserActivity 
             WHERE created_at BETWEEN ? AND ?
@@ -438,7 +436,7 @@ try {
 
         .tracking-stats {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 20px;
         }
@@ -521,16 +519,6 @@ try {
                         <h3>Total Activities</h3>
                         <div class="value"><?= number_format($engagement_stats['total_activities']) ?></div>
                         <div class="label">Last 30 days</div>
-                    </div>
-                    <div class="tracking-card">
-                        <h3>Registered Users</h3>
-                        <div class="value"><?= number_format($engagement_stats['registered_users']) ?></div>
-                        <div class="label">Active users</div>
-                    </div>
-                    <div class="tracking-card">
-                        <h3>Anonymous Users</h3>
-                        <div class="value"><?= number_format($engagement_stats['anonymous_users']) ?></div>
-                        <div class="label">Unique visitors</div>
                     </div>
                     <div class="tracking-card">
                         <h3>Total Users</h3>
@@ -867,7 +855,9 @@ try {
                         'rgba(255, 99, 132, 0.5)',
                         'rgba(54, 162, 235, 0.5)',
                         'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)'
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
                     ]
                 }]
             },
