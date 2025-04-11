@@ -10,8 +10,11 @@
             </ul>
         </nav>
         <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search for products...">
-            <button id="search-btn">search</button>
+        <form action="browse.php" method="GET" class="header-search-form">
+            <input type="text" name="search" placeholder="Search products..." required>
+            <button type="submit">search</button>
+        </form>
+
         </div>
         <div id="search-results"></div>
         <div class="icons">

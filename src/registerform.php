@@ -33,7 +33,7 @@ $profile_picture = null;
 $upload_dir = "uploads/profile_pictures/";
 
 // make sure directory exists, directory permissions must be set to write to the directory
-//have to enable directory permissions to the WEB SERVER not user. 
+// enable directory permissions to the WEB SERVER not user. 
 if (!is_dir($upload_dir)) {
     mkdir($upload_dir, 0755, true); // Create the directory if it doesn't exist(w permissions)
 }
