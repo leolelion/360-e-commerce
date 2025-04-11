@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 // Hardcoded 8 produce product IDs
-$productIds = [51, 52, 53, 54, 55, 56, 57, 58];
+$productIds = [52, 53, 54, 55, 56, 57, 58, 59];
 
 
 $placeholders = implode(',', array_fill(0, count($productIds), '?'));
