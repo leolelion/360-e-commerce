@@ -11,32 +11,31 @@ session_start();
     <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
-<?php include 'header.php'; ?>
-<?php
-if (isset($_GET['error'])) {
-    if ($_GET['error'] == "invalid_credentials") {
-        echo "<p style='color:red;'>Invalid email or password. Please try again.</p>";
-    } elseif ($_GET['error'] == "db_error") {
-        echo "<p style='color:red;'>Database error. Please try again later.</p>";
-    }
-}
-?>
-
 
     <main>
-        <form action="loginform.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <div class="registration-form">
+            <?php
+            if (isset($_GET['error'])) {
+                if ($_GET['error'] == "invalid_credentials") {
+                    echo "<p id='error-message'>Invalid email or password. Please try again.</p>";
+                } elseif ($_GET['error'] == "db_error") {
+                    echo "<p id='error-message'>Database error. Please try again later.</p>";
+                }
+            }
+            ?>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <div id="error-message"></div>
+            <form action="loginform.php" method="POST">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
 
-            <button type="submit">Login</button>
-        </form>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
 
+                <button type="submit">Login</button>
+            </form>
+        </div>
     </main>
-<script src="../assets/jsscripts.js"></script>
+
+    <script src="../assets/jsscripts.js"></script>
 </body>
 </html>
