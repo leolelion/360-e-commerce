@@ -26,6 +26,8 @@ body {
     padding: 10px;
     border-radius: 10px;
     transition: transform 0.2s, background 0.3s;
+    text-decoration: none;
+    color: inherit;
 }
 
 .category:hover {
@@ -43,6 +45,13 @@ body {
     margin-top: 10px;
     font-size: 16px;
     font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.category:hover span {
+    color: #4080e0; /* Turquoise color */
 }
 
 .product-grid {
@@ -96,7 +105,7 @@ body {
 }
 
 .product:hover h3 {
-    color: #40E0D0; /* Turquoise color */
+    color: #197b3d; /* Turquoise color */
     text-decoration: none;
 }
 
