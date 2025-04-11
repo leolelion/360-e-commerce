@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 // Hardcoded 8 produce product IDs
-$productIds = [43, 44, 45, 46, 47, 48, 49, 50];
+$productIds = [44, 45, 46, 47, 48, 49, 50, 51];
 
 
 $placeholders = implode(',', array_fill(0, count($productIds), '?'));
@@ -30,7 +30,7 @@ foreach ($products as $product) {
 <?php include BASE_PATH . 'header.php'; ?>
 
 <main>
-    <h2>Produce</h2>
+    <h2>Pantry Foods</h2>
     <div class="product-grid">
         <?php foreach ($productIds as $id): ?>
             <?php if (isset($productMap[$id])): 
