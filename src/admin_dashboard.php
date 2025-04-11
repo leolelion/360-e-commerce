@@ -3,10 +3,10 @@ session_start();
 require_once 'config.php';
 
 // Check if user is logged in and is an admin
-// if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-//     header('Location: login.php');
-//     exit();
-// }
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
 
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
 
@@ -81,6 +81,48 @@ try {
         ");
         $active_users_stmt->execute([$start_date, $end_date]);
         $active_users = $active_users_stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+        // Get activity tracking data
+        $activity_types = ['login', 'logout', 'view_product', 'add_to_cart', 'purchase', 'review'];
+        $activity_data = [];
+        
+        foreach ($activity_types as $type) {
+            $stmt = $pdo->prepare("
+                SELECT DATE(created_at) as date, COUNT(*) as count 
+                FROM UserActivity 
+                WHERE activity_type = ? 
+                AND created_at BETWEEN ? AND ? 
+                GROUP BY DATE(created_at)
+            ");
+            $stmt->execute([$type, $start_date, $end_date]);
+            $activity_data[$type] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // Get top viewed products
+        $top_products_stmt = $pdo->prepare("
+            SELECT 
+                details as product_name,
+                COUNT(*) as view_count
+            FROM UserActivity 
+            WHERE activity_type = 'view_product'
+            AND created_at BETWEEN ? AND ?
+            GROUP BY details
+            ORDER BY view_count DESC
+            LIMIT 5
+        ");
+        $top_products_stmt->execute([$start_date, $end_date]);
+        $top_products = $top_products_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Get user engagement stats
+        $engagement_stmt = $pdo->prepare("
+            SELECT 
+                COUNT(DISTINCT user_id) as total_users,
+                COUNT(*) as total_activities
+            FROM UserActivity 
+            WHERE created_at BETWEEN ? AND ?
+        ");
+        $engagement_stmt->execute([$start_date, $end_date]);
+        $engagement_stats = $engagement_stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Orders data
@@ -391,6 +433,37 @@ try {
             background-color: #f44336;
             color: white;
         }
+
+        .tracking-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tracking-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tracking-card h3 {
+            margin: 0;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .tracking-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .tracking-card .label {
+            color: #999;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -441,6 +514,19 @@ try {
                     </div>
                 </div>
 
+                <div class="tracking-stats">
+                    <div class="tracking-card">
+                        <h3>Total Activities</h3>
+                        <div class="value"><?= number_format($engagement_stats['total_activities']) ?></div>
+                        <div class="label">Last 30 days</div>
+                    </div>
+                    <div class="tracking-card">
+                        <h3>Total Users</h3>
+                        <div class="value"><?= number_format($engagement_stats['total_users']) ?></div>
+                        <div class="label">All time</div>
+                    </div>
+                </div>
+
                 <div class="dashboard-container">
                     <div class="card">
                         <h3>User Activity</h3>
@@ -467,6 +553,20 @@ try {
                         <h3>User Growth</h3>
                         <div class="chart-container">
                             <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>User Activity Types</h3>
+                        <div class="chart-container">
+                            <canvas id="activityTypesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Top Viewed Products</h3>
+                        <div class="chart-container">
+                            <canvas id="topProductsChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -733,6 +833,54 @@ try {
                     data: <?= json_encode(array_column($activity_data, 'count')) ?>,
                     borderColor: 'rgb(255, 99, 132)',
                     tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Activity Types Chart
+        new Chart(document.getElementById('activityTypesChart'), {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode($activity_types) ?>,
+                datasets: [{
+                    label: 'Activity Count',
+                    data: <?= json_encode(array_map(function($type) use ($activity_data) {
+                        return array_sum(array_column($activity_data[$type], 'count'));
+                    }, $activity_types)) ?>,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Top Products Chart
+        new Chart(document.getElementById('topProductsChart'), {
+            type: 'doughnut',
+            data: {
+                labels: <?= json_encode(array_column($top_products, 'product_name')) ?>,
+                datasets: [{
+                    data: <?= json_encode(array_column($top_products, 'view_count')) ?>,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)'
+                    ]
                 }]
             },
             options: {
