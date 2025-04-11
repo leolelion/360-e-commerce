@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config.php';
 
 // Fetch HOT PRODUCTS (4 random items)
@@ -17,11 +18,11 @@ $moreProducts = $moreStmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/index.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/index.css">
 </head>
 <body>
-<?php include BASE_PATH . 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <main>
     <section class="categories">
