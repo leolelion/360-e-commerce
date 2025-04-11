@@ -8,21 +8,16 @@ require_once 'config.php';
 //     exit();
 // }
 
-// Get active tab from URL parameter
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
 
-// Get date range for filtering
 $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-d', strtotime('-30 days'));
 $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
 
 try {
-    // Dashboard data
     if ($active_tab === 'dashboard') {
-        // Get total users count
         $users_stmt = $pdo->query("SELECT COUNT(*) as total FROM Users");
         $total_users = $users_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-        // Get user activity data
         $activity_stmt = $pdo->prepare("
             SELECT DATE(created_at) as date, COUNT(*) as count 
             FROM UserActivity 
@@ -201,8 +196,9 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Admin Dashboard - ShopCo</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Base styles */
@@ -398,269 +394,278 @@ try {
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tabs">
-            <a href="?tab=dashboard" class="tab <?= $active_tab === 'dashboard' ? 'active' : '' ?>">Dashboard</a>
-            <a href="?tab=orders" class="tab <?= $active_tab === 'orders' ? 'active' : '' ?>">Orders</a>
-            <a href="?tab=users" class="tab <?= $active_tab === 'users' ? 'active' : '' ?>">Users</a>
-            <a href="?tab=products" class="tab <?= $active_tab === 'products' ? 'active' : '' ?>">Products</a>
+    <?php include 'header.php'; ?>
+
+    <main>
+        <div class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <a href="index.php" class="btn btn-primary">Return to Home</a>
         </div>
 
-        <?php if ($active_tab === 'dashboard'): ?>
-            <div class="filters">
-                <h2>Admin Dashboard</h2>
-                <form method="GET" action="">
-                    <input type="hidden" name="tab" value="dashboard">
-                    <label for="start_date">Start Date:</label>
-                    <input type="date" name="start_date" value="<?= htmlspecialchars($start_date) ?>">
-                    
-                    <label for="end_date">End Date:</label>
-                    <input type="date" name="end_date" value="<?= htmlspecialchars($end_date) ?>">
-                    
-                    <button type="submit">Apply Filters</button>
-                </form>
+        <div class="container">
+            <div class="tabs">
+                <a href="?tab=dashboard" class="tab <?= $active_tab === 'dashboard' ? 'active' : '' ?>">Dashboard</a>
+                <a href="?tab=orders" class="tab <?= $active_tab === 'orders' ? 'active' : '' ?>">Orders</a>
+                <a href="?tab=users" class="tab <?= $active_tab === 'users' ? 'active' : '' ?>">Users</a>
+                <a href="?tab=products" class="tab <?= $active_tab === 'products' ? 'active' : '' ?>">Products</a>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Users</h3>
-                    <div class="value"><?= $total_users ?></div>
+            <?php if ($active_tab === 'dashboard'): ?>
+                <div class="filters">
+                    <h2>Admin Dashboard</h2>
+                    <form method="GET" action="">
+                        <input type="hidden" name="tab" value="dashboard">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date" value="<?= htmlspecialchars($start_date) ?>">
+                        
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date" value="<?= htmlspecialchars($end_date) ?>">
+                        
+                        <button type="submit">Apply Filters</button>
+                    </form>
                 </div>
-                <div class="stat-card">
-                    <h3>Total Orders</h3>
-                    <div class="value"><?= $total_orders ?></div>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Revenue</h3>
-                    <div class="value">$<?= number_format($total_revenue, 2) ?></div>
-                </div>
-                <div class="stat-card">
-                    <h3>Active Users</h3>
-                    <div class="value"><?= $active_users ?></div>
-                </div>
-            </div>
 
-            <div class="dashboard-container">
-                <div class="card">
-                    <h3>User Activity</h3>
-                    <div class="chart-container">
-                        <canvas id="activityChart"></canvas>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <div class="value"><?= $total_users ?></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Orders</h3>
+                        <div class="value"><?= $total_orders ?></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="value">$<?= number_format($total_revenue, 2) ?></div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Users</h3>
+                        <div class="value"><?= $active_users ?></div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h3>Sales Overview</h3>
-                    <div class="chart-container">
-                        <canvas id="salesChart"></canvas>
+                <div class="dashboard-container">
+                    <div class="card">
+                        <h3>User Activity</h3>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <h3>Popular Products</h3>
-                    <div class="chart-container">
-                        <canvas id="productsChart"></canvas>
+                    <div class="card">
+                        <h3>Sales Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <h3>User Growth</h3>
-                    <div class="chart-container">
-                        <canvas id="growthChart"></canvas>
+                    <div class="card">
+                        <h3>Popular Products</h3>
+                        <div class="chart-container">
+                            <canvas id="productsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>User Growth</h3>
+                        <div class="chart-container">
+                            <canvas id="growthChart"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php elseif ($active_tab === 'orders'): ?>
-            <div class="card">
-                <h2>Orders Management</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>User</th>
-                            <th>Total Price</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($orders_list as $order): ?>
+            <?php elseif ($active_tab === 'orders'): ?>
+                <div class="card">
+                    <h2>Orders Management</h2>
+                    <table class="data-table">
+                        <thead>
                             <tr>
-                                <td><?= htmlspecialchars($order['order_id']) ?></td>
-                                <td><?= htmlspecialchars($order['first_name']) ?> <?= htmlspecialchars($order['last_name']) ?></td>
-                                <td>$<?= number_format($order['total_price'], 2) ?></td>
-                                <td>
-                                    <span class="status-badge status-<?= strtolower($order['order_status']) ?>">
-                                        <?= htmlspecialchars($order['order_status']) ?>
-                                    </span>
-                                </td>
-                                <td><?= date("Y-m-d H:i:s", strtotime($order['created_at'])) ?></td>
-                                <td class="actions">
-                                    <a href="view_order.php?id=<?= $order['order_id'] ?>" class="btn btn-primary">View</a>
-                                </td>
+                                <th>Order ID</th>
+                                <th>User</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php elseif ($active_tab === 'users'): ?>
-            <div class="card">
-                <h2>Users Management</h2>
-                <div style="margin-bottom: 20px;">
-                    <a href="add_user.php" class="btn btn-primary">Add New User</a>
-                </div>
-
-                <form method="GET" action="" class="filters">
-                    <input type="hidden" name="tab" value="users">
-                    <input type="text" name="name" placeholder="Search by name" 
-                           value="<?= isset($_GET['name']) ? htmlspecialchars($_GET['name']) : '' ?>"
-                           class="form-control">
-                    
-                    <input type="text" name="email" placeholder="Search by email" 
-                           value="<?= isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '' ?>"
-                           class="form-control">
-
-                    <select name="role" class="form-control">
-                        <option value="">Select Role</option>
-                        <option value="admin" <?= isset($_GET['role']) && $_GET['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
-                        <option value="user" <?= isset($_GET['role']) && $_GET['role'] === 'user' ? 'selected' : '' ?>>User</option>
-                        <option value="vendor" <?= isset($_GET['role']) && $_GET['role'] === 'vendor' ? 'selected' : '' ?>>Vendor</option>
-                    </select>
-
-                    <button type="submit" class="btn btn-primary">Search</button>
-                    <a href="?tab=users" class="btn btn-secondary">Clear Filters</a>
-                </form>
-
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($users_list)): ?>
-                            <tr>
-                                <td colspan="8" style="text-align: center;">No users found.</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($users_list as $user): ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($orders_list as $order): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($user['user_id']) ?></td>
-                                    <td><?= htmlspecialchars($user['first_name']) ?></td>
-                                    <td><?= htmlspecialchars($user['last_name']) ?></td>
-                                    <td><?= htmlspecialchars($user['email']) ?></td>
-                                    <td><?= htmlspecialchars($user['role']) ?></td>
-                                    <td><?= htmlspecialchars($user['phone']) ?></td>
-                                    <td><?= htmlspecialchars($user['address']) ?></td>
-                                    <td class="actions">
-                                        <a href="edit_user.php?id=<?= $user['user_id'] ?>" class="btn btn-primary">Edit</a>
-                                        <a href="delete_user.php?id=<?= $user['user_id'] ?>" 
-                                           class="btn btn-danger" 
-                                           onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php elseif ($active_tab === 'products'): ?>
-            <div class="card">
-                <h2>Products Management</h2>
-                <div style="margin-bottom: 20px;">
-                    <a href="add_product.php" class="btn btn-primary">Add New Product</a>
-                </div>
-
-                <form method="GET" action="" class="filters">
-                    <input type="hidden" name="tab" value="products">
-                    <input type="text" name="name" placeholder="Search by name" 
-                           value="<?= isset($_GET['name']) ? htmlspecialchars($_GET['name']) : '' ?>"
-                           class="form-control">
-                    
-                    <select name="category_id" class="form-control">
-                        <option value="">Select Category</option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?= $category['category_id'] ?>" 
-                                    <?= isset($_GET['category_id']) && $_GET['category_id'] == $category['category_id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($category['category_name']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <select name="vendor_id" class="form-control">
-                        <option value="">Select Vendor</option>
-                        <?php foreach ($vendors as $vendor): ?>
-                            <option value="<?= $vendor['vendor_id'] ?>" 
-                                    <?= isset($_GET['vendor_id']) && $_GET['vendor_id'] == $vendor['vendor_id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($vendor['vendor_name']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <button type="submit" class="btn btn-primary">Search</button>
-                    <a href="?tab=products" class="btn btn-secondary">Clear Filters</a>
-                </form>
-
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Product ID</th>
-                            <th>Vendor</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Category</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($products_list)): ?>
-                            <tr>
-                                <td colspan="9" style="text-align: center;">No products found.</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($products_list as $product): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($product['product_id']) ?></td>
-                                    <td><?= htmlspecialchars($product['vendor_name']) ?></td>
+                                    <td><?= htmlspecialchars($order['order_id']) ?></td>
+                                    <td><?= htmlspecialchars($order['first_name']) ?> <?= htmlspecialchars($order['last_name']) ?></td>
+                                    <td>$<?= number_format($order['total_price'], 2) ?></td>
                                     <td>
-                                        <?php if ($product['image_url']): ?>
-                                            <img src="<?= htmlspecialchars($product['image_url']) ?>" 
-                                                 alt="Product Image" 
-                                                 style="max-width: 50px; max-height: 50px; object-fit: cover;">
-                                        <?php else: ?>
-                                            No Image
-                                        <?php endif; ?>
+                                        <span class="status-badge status-<?= strtolower($order['order_status']) ?>">
+                                            <?= htmlspecialchars($order['order_status']) ?>
+                                        </span>
                                     </td>
-                                    <td><?= htmlspecialchars($product['name']) ?></td>
-                                    <td><?= htmlspecialchars($product['description']) ?></td>
-                                    <td>$<?= number_format($product['price'], 2) ?></td>
-                                    <td><?= htmlspecialchars($product['stock_quantity']) ?></td>
-                                    <td><?= htmlspecialchars($product['category_name']) ?></td>
+                                    <td><?= date("Y-m-d H:i:s", strtotime($order['created_at'])) ?></td>
                                     <td class="actions">
-                                        <a href="edit_product.php?id=<?= $product['product_id'] ?>" 
-                                           class="btn btn-primary">Edit</a>
-                                        <a href="delete_product.php?id=<?= $product['product_id'] ?>" 
-                                           class="btn btn-danger"
-                                           onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                                        <a href="view_order.php?id=<?= $order['order_id'] ?>" class="btn btn-primary">View</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
+                        </tbody>
+                    </table>
+                </div>
+            <?php elseif ($active_tab === 'users'): ?>
+                <div class="card">
+                    <h2>Users Management</h2>
+                    <div style="margin-bottom: 20px;">
+                        <a href="add_user.php" class="btn btn-primary">Add New User</a>
+                    </div>
+
+                    <form method="GET" action="" class="filters">
+                        <input type="hidden" name="tab" value="users">
+                        <input type="text" name="name" placeholder="Search by name" 
+                               value="<?= isset($_GET['name']) ? htmlspecialchars($_GET['name']) : '' ?>"
+                               class="form-control">
+                        
+                        <input type="text" name="email" placeholder="Search by email" 
+                               value="<?= isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '' ?>"
+                               class="form-control">
+
+                        <select name="role" class="form-control">
+                            <option value="">Select Role</option>
+                            <option value="admin" <?= isset($_GET['role']) && $_GET['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
+                            <option value="user" <?= isset($_GET['role']) && $_GET['role'] === 'user' ? 'selected' : '' ?>>User</option>
+                            <option value="vendor" <?= isset($_GET['role']) && $_GET['role'] === 'vendor' ? 'selected' : '' ?>>Vendor</option>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="?tab=users" class="btn btn-secondary">Clear Filters</a>
+                    </form>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($users_list)): ?>
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">No users found.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($users_list as $user): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($user['user_id']) ?></td>
+                                        <td><?= htmlspecialchars($user['first_name']) ?></td>
+                                        <td><?= htmlspecialchars($user['last_name']) ?></td>
+                                        <td><?= htmlspecialchars($user['email']) ?></td>
+                                        <td><?= htmlspecialchars($user['role']) ?></td>
+                                        <td><?= htmlspecialchars($user['phone']) ?></td>
+                                        <td><?= htmlspecialchars($user['address']) ?></td>
+                                        <td class="actions">
+                                            <a href="edit_user.php?id=<?= $user['user_id'] ?>" class="btn btn-primary">Edit</a>
+                                            <a href="delete_user.php?id=<?= $user['user_id'] ?>" 
+                                               class="btn btn-danger" 
+                                               onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php elseif ($active_tab === 'products'): ?>
+                <div class="card">
+                    <h2>Products Management</h2>
+                    <div style="margin-bottom: 20px;">
+                        <a href="add_product.php" class="btn btn-primary">Add New Product</a>
+                    </div>
+
+                    <form method="GET" action="" class="filters">
+                        <input type="hidden" name="tab" value="products">
+                        <input type="text" name="name" placeholder="Search by name" 
+                               value="<?= isset($_GET['name']) ? htmlspecialchars($_GET['name']) : '' ?>"
+                               class="form-control">
+                        
+                        <select name="category_id" class="form-control">
+                            <option value="">Select Category</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category['category_id'] ?>" 
+                                        <?= isset($_GET['category_id']) && $_GET['category_id'] == $category['category_id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($category['category_name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <select name="vendor_id" class="form-control">
+                            <option value="">Select Vendor</option>
+                            <?php foreach ($vendors as $vendor): ?>
+                                <option value="<?= $vendor['vendor_id'] ?>" 
+                                        <?= isset($_GET['vendor_id']) && $_GET['vendor_id'] == $vendor['vendor_id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($vendor['vendor_name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="?tab=products" class="btn btn-secondary">Clear Filters</a>
+                    </form>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Vendor</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($products_list)): ?>
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">No products found.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($products_list as $product): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($product['product_id']) ?></td>
+                                        <td><?= htmlspecialchars($product['vendor_name']) ?></td>
+                                        <td>
+                                            <?php if ($product['image_url']): ?>
+                                                <img src="<?= htmlspecialchars($product['image_url']) ?>" 
+                                                     alt="Product Image" 
+                                                     style="max-width: 50px; max-height: 50px; object-fit: cover;">
+                                            <?php else: ?>
+                                                No Image
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?= htmlspecialchars($product['name']) ?></td>
+                                        <td><?= htmlspecialchars($product['description']) ?></td>
+                                        <td>$<?= number_format($product['price'], 2) ?></td>
+                                        <td><?= htmlspecialchars($product['stock_quantity']) ?></td>
+                                        <td><?= htmlspecialchars($product['category_name']) ?></td>
+                                        <td class="actions">
+                                            <a href="edit_product.php?id=<?= $product['product_id'] ?>" 
+                                               class="btn btn-primary">Edit</a>
+                                            <a href="delete_product.php?id=<?= $product['product_id'] ?>" 
+                                               class="btn btn-danger"
+                                               onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+    </main>
 
     <?php if ($active_tab === 'dashboard'): ?>
     <script>
