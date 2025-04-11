@@ -1,6 +1,14 @@
 <?php
 require_once 'config.php';
+require_once 'classes/ActivityTracker.php';
 session_start();
+
+// Initialize tracker
+$tracker = new App\ActivityTracker($pdo);
+
+// Log cart page view
+$tracker->logPageView('cart');
+
 //TODO: implement chckout
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -15,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($product_id && $quantity && $quantity > 0) {
             $stmt = $pdo->prepare("UPDATE Cart SET quantity = ? WHERE user_id = ? AND product_id = ?");
             $stmt->execute([$quantity, $_SESSION['user_id'], $product_id]);
+            
+            // Log cart update
+            $tracker->logCartAction('update_quantity', $product_id, $quantity);
         }
     } elseif (isset($_POST['remove_item'])) {
         $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
@@ -22,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($product_id) {
             $stmt = $pdo->prepare("DELETE FROM Cart WHERE user_id = ? AND product_id = ?");
             $stmt->execute([$_SESSION['user_id'], $product_id]);
+            
+            // Log cart removal
+            $tracker->logCartAction('remove_from_cart', $product_id);
         }
     }
     

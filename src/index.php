@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once 'config.php';
+require_once 'classes/ActivityTracker.php';
+
+// Initialize tracker
+$tracker = new App\ActivityTracker($pdo);
+$tracker->logPageView('index');
 
 // Fetch HOT PRODUCTS (4 random items)
 $hotStmt = $pdo->prepare("SELECT * FROM Products ORDER BY RAND() LIMIT 4");
