@@ -197,8 +197,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - ShopCo</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Base styles */
@@ -394,14 +394,11 @@ try {
     </style>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <div class="dashboard-header">
+        <a href="index.php" class="btn btn-primary">Return to Home</a>
+    </div>
 
     <main>
-        <div class="dashboard-header">
-            <h1>Admin Dashboard</h1>
-            <a href="index.php" class="btn btn-primary">Return to Home</a>
-        </div>
-
         <div class="container">
             <div class="tabs">
                 <a href="?tab=dashboard" class="tab <?= $active_tab === 'dashboard' ? 'active' : '' ?>">Dashboard</a>
