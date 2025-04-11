@@ -2,6 +2,9 @@
 session_start();
 
 include 'config.php';
+require_once 'classes/ActivityTracker.php';
+
+$tracker = new App\ActivityTracker($pdo);
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("Product not found.");
@@ -22,9 +25,13 @@ try {
     if (!$product) {
         die("Product not found.");
     }
+
+    $tracker->logProductView($product_id, $product['name']);
+
 } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage());
 }
+
 try {
     $stmt = $pdo->prepare("SELECT r.review_id, r.rating, r.comment, r.created_at, 
                               CONCAT(u.first_name, ' ', u.last_name) AS username 
