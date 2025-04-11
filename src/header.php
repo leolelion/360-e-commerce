@@ -11,6 +11,9 @@
                 <li><a href="browse.php">Shop</a></li>
                 <li><a href="login.php">Log in</a></li>
                 <li><a href="register.php">Register</a></li>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                            <li><a href="admin_dashboard.php" class="admin-tab">Admin Dashboard</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
         <div class="search-bar">
