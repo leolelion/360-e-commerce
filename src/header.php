@@ -1,7 +1,11 @@
 <header>
         
     <div class="nav-container">
-        <h1><a href="index.php">SHOP.CO</a></h1>
+        <div class="logo">
+            <a href="index.php">
+                <img src="../assets/images/logo.png" alt="ShopCo Logo" class="logo-image">
+            </a>
+        </div>
         <nav>
             <ul>
                 <li><a href="browse.php">Shop</a></li>
