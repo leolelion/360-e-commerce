@@ -1,4 +1,16 @@
-<?php require_once 'config.php'; ?>
+<?php
+require_once 'config.php';
+
+// Fetch HOT PRODUCTS (4 random items)
+$hotStmt = $pdo->prepare("SELECT * FROM Products ORDER BY RAND() LIMIT 4");
+$hotStmt->execute();
+$hotProducts = $hotStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch MORE PRODUCTS (next 4 newest)
+$moreStmt = $pdo->prepare("SELECT * FROM Products ORDER BY product_id DESC LIMIT 4 OFFSET 4");
+$moreStmt->execute();
+$moreProducts = $moreStmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,120 +22,87 @@
 </head>
 <body>
 <?php include BASE_PATH . 'header.php'; ?>
+
 <main>
     <section class="categories">
         <h2>Categories</h2>
         <div class="category-list">
-            <div class="category">
+            <a href="produce.php?name=produce" class="category">
                 <img src="<?= BASE_URL ?>assets/images/fruitsVegetables.png" alt="Fruits & Vegetables">
                 <span>Produce</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="meats.php?name=meats" class="category">
                 <img src="<?= BASE_URL ?>assets/images/meats.png" alt="Meat & Seafood">
                 <span>Meats</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="dairy.php?name=dairy" class="category">
                 <img src="<?= BASE_URL ?>assets/images/dairy.png" alt="Dairy Products">
                 <span>Dairy</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="frozenFoods.php?name=frozen%20foods" class="category">
                 <img src="<?= BASE_URL ?>assets/images/frozenFoods.png" alt="Frozen Foods">
                 <span>Frozen Foods</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="pantryFoods.php?name=pantry%20foods" class="category">
                 <img src="<?= BASE_URL ?>assets/images/pantryFoods.png" alt="Pantry Foods">
                 <span>Pantry Foods</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="snacks.php?name=snacks" class="category">
                 <img src="<?= BASE_URL ?>assets/images/snacksCandy.png" alt="Snacks & Candy">
                 <span>Snacks</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="freshFoods.php?name=fresh%20foods" class="category">
                 <img src="<?= BASE_URL ?>assets/images/freshFoods.png" alt="Deli & Fresh Prepared Meals">
                 <span>Fresh Foods</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="alcohol.php?name=alcohol" class="category">
                 <img src="<?= BASE_URL ?>assets/images/alcohol.png" alt="Alcohol Beverages">
                 <span>Alcohol</span>
-            </div>
-            <div class="category">
-                <img src="<?= BASE_URL ?>/assets/images/drinks.png" alt="Beverages">
+            </a>
+            <a href="beverages.php?name=beverages" class="category">
+                <img src="<?= BASE_URL ?>assets/images/drinks.png" alt="Beverages">
                 <span>Beverages</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="bakery.php?name=bakery" class="category">
                 <img src="<?= BASE_URL ?>assets/images/bread.png" alt="Bakery Goods">
                 <span>Bakery</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="household.php?name=household" class="category">
                 <img src="<?= BASE_URL ?>assets/images/laundry.png" alt="Household Items">
                 <span>Household</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="paperware.php?name=paperware" class="category">
                 <img src="<?= BASE_URL ?>assets/images/tissue.png" alt="Paper Products">
                 <span>Paperware</span>
-            </div>
+            </a>
         </div>
     </section>
 
- 
     <section class="hot-products">
         <h2>HOT PRODUCTS</h2>
         <div class="product-grid">
-            <a href="product.php?item=baby_spinach" class="product">
-                <img src="<?= BASE_URL ?>assets/images/babySpinach.png" alt="Baby Spinach">
-                <h3>Baby Spinach</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </a>
-            <a href="product.php?item=blueberries" class="product">
-                <img src="<?= BASE_URL ?>assets/images/blueberries.jpg" alt="Baby Spinach">
-                <h3>Blueberries</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </a>
-            <a href="product.php?item=raspberries" class="product">
-                <img src="<?= BASE_URL ?>assets/images/rasberries.jpg" alt="Baby Spinach">
-                <h3>Raspberries</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </a>
-            <a href="product.php?item=eggs" class="product">
-                <img src="<?= BASE_URL ?>assets/images/eggs2.png" alt="Baby Spinach">
-                <h3>Eggs</h3>
-                <p>Jayleaf Farm</p>
-                <p>277 g Box - $15.49</p>
-            </a>
+            <?php foreach ($hotProducts as $product): ?>
+                <a href="product.php?id=<?= $product['product_id'] ?>" class="product">
+                    <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                    <h3><?= htmlspecialchars($product['name']) ?></h3>
+                    <p><?= htmlspecialchars($product['description']) ?></p>
+                    <p>$<?= number_format($product['price'], 2) ?></p>
+                </a>
+            <?php endforeach; ?>
         </div>
     </section>
-
 
     <section class="all-products">
         <h2>MORE PRODUCTS</h2>
         <div class="product-grid">
-            <a href="product.php?item=laundry-detergent" class="product">
-                <img src="<?= BASE_URL ?>assets/images/laundryDetergent.png" alt="Laundry Detergent">
-                <h3>Laundry Detergent</h3>
-                <p>Purex</p>
-                <p>4.43L - $15.97</p>
-            </a>
-            <a href="product.php?item=oreo-minis" class="product">
-                <img src="<?= BASE_URL ?>assets/images/oreoMini.png" alt="Oreo Mini's">
-                <h3>Oreo Mini's</h3>
-                <p>OREO</p>
-                <p>6 pack (150 g) - $3.28</p>
-            </a>
-            <a href="product.php?item=strawberry-croissant" class="product">
-                <img src="<?= BASE_URL ?>assets/images/strawBerryCroissant.png" alt="Strawberry Cream Cheese Croissant">
-                <h3>Strawberry Cream Cheese Croissant</h3>
-                <p>Your Fresh Market</p>
-                <p>6 pieces (460 g) - $4.97</p>
-            </a>
-            <a href="product.php?item=dr-pepper-zero" class="product">
-                <img src="<?= BASE_URL ?>assets/images/drPepper.png" alt="Dr. Pepper Zero Sugar">
-                <h3>Dr. Pepper Zero Sugar</h3>
-                <p>Dr. Pepper</p>
-                <p>12 Cans x 335L (4.26L) - $7.78</p>
-            </a>
+            <?php foreach ($moreProducts as $product): ?>
+                <a href="product.php?id=<?= $product['product_id'] ?>" class="product">
+                    <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                    <h3><?= htmlspecialchars($product['name']) ?></h3>
+                    <p><?= htmlspecialchars($product['description']) ?></p>
+                    <p>$<?= number_format($product['price'], 2) ?></p>
+                </a>
+            <?php endforeach; ?>
         </div>
         <div class="pagination">
             <button>«</button>
@@ -134,7 +113,8 @@
         </div>
     </section>
 </main>
-<?php include 'footer.php'; ?>
-<script src="search.js" ></script>
+
+<?php include BASE_PATH . 'footer.php'; ?>
+<script src="search.js"></script>
 </body>
 </html>
