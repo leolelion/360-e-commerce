@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config.php';
 
 $selected_category = $_GET['category'] ?? '';
