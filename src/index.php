@@ -27,54 +27,54 @@ $moreProducts = $moreStmt->fetchAll(PDO::FETCH_ASSOC);
     <section class="categories">
         <h2>Categories</h2>
         <div class="category-list">
-            <div class="category">
+            <a href="produce.php?name=produce" class="category">
                 <img src="<?= BASE_URL ?>assets/images/fruitsVegetables.png" alt="Fruits & Vegetables">
                 <span>Produce</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="meats.php?name=meats" class="category">
                 <img src="<?= BASE_URL ?>assets/images/meats.png" alt="Meat & Seafood">
                 <span>Meats</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="dairy.php?name=dairy" class="category">
                 <img src="<?= BASE_URL ?>assets/images/dairy.png" alt="Dairy Products">
                 <span>Dairy</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="frozenFoods.php?name=frozen%20foods" class="category">
                 <img src="<?= BASE_URL ?>assets/images/frozenFoods.png" alt="Frozen Foods">
                 <span>Frozen Foods</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="pantryFoods.php?name=pantry%20foods" class="category">
                 <img src="<?= BASE_URL ?>assets/images/pantryFoods.png" alt="Pantry Foods">
                 <span>Pantry Foods</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="snacks.php?name=snacks" class="category">
                 <img src="<?= BASE_URL ?>assets/images/snacksCandy.png" alt="Snacks & Candy">
                 <span>Snacks</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="freshFoods.php?name=fresh%20foods" class="category">
                 <img src="<?= BASE_URL ?>assets/images/freshFoods.png" alt="Deli & Fresh Prepared Meals">
                 <span>Fresh Foods</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="alcohol.php?name=alcohol" class="category">
                 <img src="<?= BASE_URL ?>assets/images/alcohol.png" alt="Alcohol Beverages">
                 <span>Alcohol</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="beverages.php?name=beverages" class="category">
                 <img src="<?= BASE_URL ?>assets/images/drinks.png" alt="Beverages">
                 <span>Beverages</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="bakery.php?name=bakery" class="category">
                 <img src="<?= BASE_URL ?>assets/images/bread.png" alt="Bakery Goods">
                 <span>Bakery</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="household.php?name=household" class="category">
                 <img src="<?= BASE_URL ?>assets/images/laundry.png" alt="Household Items">
                 <span>Household</span>
-            </div>
-            <div class="category">
+            </a>
+            <a href="paperware.php?name=paperware" class="category">
                 <img src="<?= BASE_URL ?>assets/images/tissue.png" alt="Paper Products">
                 <span>Paperware</span>
-            </div>
+            </a>
         </div>
     </section>
 
