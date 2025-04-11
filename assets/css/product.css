@@ -301,3 +301,22 @@
     margin: 0.5rem 0;
     font-size: 0.9rem;
   }
+  
+  .reviews-remaining {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .reviews-remaining.info {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #90caf9;
+  }
+  
+  .reviews-remaining.warning {
+    background-color: #fff3e0;
+    color: #f57c00;
+    border: 1px solid #ffb74d;
+  }
